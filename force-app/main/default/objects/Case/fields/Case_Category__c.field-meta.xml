@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Case_Category__c</fullName>
+    <externalId>false</externalId>
+    <label>Case Category</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>NPB Assigned</fullName>
+                <default>false</default>
+                <label>NPB Assigned</label>
+            </value>
+            <value>
+                <fullName>NPB 6 Week Follow-Up</fullName>
+                <default>false</default>
+                <label>NPB 6 Week Follow-Up</label>
+            </value>
+            <value>
+                <fullName>NPB 90 Day Follow-Up</fullName>
+                <default>false</default>
+                <label>NPB 90 Day Follow-Up</label>
+            </value>
+            <value>
+                <fullName>Decline Recovery Assigned</fullName>
+                <default>false</default>
+                <label>Decline Recovery Assigned</label>
+            </value>
+            <value>
+                <fullName>Cancel Request</fullName>
+                <default>false</default>
+                <label>Cancel Request</label>
+            </value>
+            <value>
+                <fullName>Refund Request</fullName>
+                <default>false</default>
+                <label>Refund Request</label>
+            </value>
+            <value>
+                <fullName>Audited Decline</fullName>
+                <default>false</default>
+                <label>Audited Decline</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
