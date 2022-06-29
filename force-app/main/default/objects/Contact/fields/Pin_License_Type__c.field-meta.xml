@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Pin_License_Type__c</fullName>
+    <externalId>false</externalId>
+    <label>Pin License Type</label>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <type>Picklist</type>
+    <valueSet>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>PiN State</fullName>
+                <default>false</default>
+                <label>PiN State</label>
+            </value>
+            <value>
+                <fullName>PiN Nationwide</fullName>
+                <default>false</default>
+                <label>PiN Nationwide</label>
+            </value>
+            <value>
+                <fullName>PiN Teams</fullName>
+                <default>false</default>
+                <label>PiN Teams</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>
