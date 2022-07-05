@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Ross_case_email_alert</name>
+        <label>Ross case email alert</label>
+        <locationX>1012</locationX>
+        <locationY>242</locationY>
+        <actionName>Case.Ross_email_alert</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>55.0</apiVersion>
+    <decisions>
+        <name>Check_for_Follow_UpSent</name>
+        <label>Check  for &quot;Follow-UpSent&quot;</label>
+        <locationX>833</locationX>
+        <locationY>128</locationY>
+        <defaultConnector>
+            <targetReference>Ross_case_email_alert</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>has_Follow_UpSent_topic</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_topic_object_records.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>has &quot;Follow-UpSent&quot;</label>
+        </rules>
+    </decisions>
+    <interviewLabel>Ross email alert {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Ross email alert</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_topic_id</name>
+        <label>Get topic id &quot;Follow-UpSent&quot;</label>
+        <locationX>590</locationX>
+        <locationY>128</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_topic_object_records</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>&quot;Follow-UpSent&quot;</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Topic</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_topic_object_records</name>
+        <label>Get topic assignment records</label>
+        <locationX>717</locationX>
+        <locationY>128</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_for_Follow_UpSent</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>EntityId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>TopicId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_topic_id.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>TopicAssignment</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>74</locationX>
+        <locationY>31</locationY>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Solved</stringValue>
+            </value>
+        </filters>
+        <object>Case</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <scheduledPaths>
+            <name>Send_alert_after_36_hours_since_case_status_is_solved</name>
+            <connector>
+                <targetReference>Get_topic_id</targetReference>
+            </connector>
+            <label>Send alert after 36 hours since case status solved</label>
+            <offsetNumber>36</offsetNumber>
+            <offsetUnit>Hours</offsetUnit>
+            <recordField>ClosedDate</recordField>
+            <timeSource>RecordField</timeSource>
+        </scheduledPaths>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>Ross_email_template</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;Hey it&apos;s Ross, &lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Thanks for reaching out to Customer Success. I hope my team was able to answer your questions! We would love to hear about your experience here - https://form.jotform.com/220415188620046.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;I also wanted to make sure you were aware of our most popular free resources. Feel free to grab them all by visiting connectedinvestors.com/fast &lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Don&apos;t forget to check out our Youtube channel (https://www.youtube.com/watch?v=P391iJz4FRM&amp;amp;list=PL572T2KiUKKmW9Ps0XyKqS4WYItZKykEb) &amp;amp; podcast shows (connectedinvestors.com/blog) to watch free content on how others have found success. Additionally, we have a funding portal where private lenders compete to be your funding partner at CIX.com.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;We are SO glad to have you as a part of our Connected Investors community!! 🙂&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Enjoy. &lt;/p&gt;&lt;p&gt;Ross Hamilton&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>Subject</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255); font-size: 14.6667px; font-family: Calibri; color: rgb(0, 0, 0);&quot;&gt;Request #{!$Record.Id}: How would you rate the support you received?&lt;/span&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>Subject_ross_email</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;RE: Our Conversation - Some Freebies&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</text>
+    </textTemplates>
+</Flow>
